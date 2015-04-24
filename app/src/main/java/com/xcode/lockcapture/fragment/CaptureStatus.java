@@ -1,17 +1,13 @@
 package com.xcode.lockcapture.fragment;
 
 
-import android.animation.AnimatorInflater;
-import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +27,6 @@ import com.xcode.lockcapture.common.IFragment;
 import com.xcode.lockcapture.common.Utils;
 import com.xcode.lockcapture.media.BGMusicService;
 import com.xcode.lockcapture.observer.VolumeChangedObserver;
-
-import java.io.File;
 
 
 /**
@@ -69,7 +63,7 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
         initControl(view);
 
-        _colorAnimation = Utils.GenerateColorAnimator(getActivity(),R.animator.status_color_change,_statusContainer);
+        _colorAnimation = Utils.GenerateColorAnimator(getActivity(), R.animator.status_color_change, _statusContainer);
         initCamera();
         GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
         readyToGo();

@@ -1,7 +1,5 @@
 package com.xcode.lockcapture.album;
 
-import android.media.Image;
-
 import com.xcode.lockcapture.common.GlobalConfig;
 
 import java.io.File;

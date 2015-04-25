@@ -52,7 +52,6 @@ public class AlbumExplore extends Fragment implements IFragment, View.OnClickLis
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +67,7 @@ public class AlbumExplore extends Fragment implements IFragment, View.OnClickLis
                 GlobalConfig.GridviewColumnWidth = columnWidth;
 
                 _imageAdapter = new ImageAdapter(getActivity(), R.layout.image_list_item, LocalImageManager.GetInstance().getImageList());
+                LocalImageManager.GetInstance().SetImageAdapter(_imageAdapter);
                 gridview.setAdapter(_imageAdapter);
 
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -35,6 +35,7 @@ public class SavePictureTask extends AsyncTask<byte[], String, String> {
             out.write(data);
             out.close();
             LocalImageManager.GetInstance().AddImage(fileName);
+            LocalImageManager.GetInstance().RefreshUI();
         } catch (Exception e) {
             if (out != null)
                 try {

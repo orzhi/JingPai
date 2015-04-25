@@ -1,5 +1,7 @@
 package com.xcode.lockcapture.album;
 
+import android.support.v4.app.Fragment;
+
 import com.xcode.lockcapture.common.GlobalConfig;
 
 import java.io.File;
@@ -11,8 +13,8 @@ import java.util.List;
  */
 public class LocalImageManager {
     private List<ImageEntity> _imgList;
-
     private static LocalImageManager localImageManager;
+    public ImageAdapter _imageAdapter;
 
     public static LocalImageManager GetInstance() {
         if (localImageManager == null)
@@ -26,6 +28,10 @@ public class LocalImageManager {
         RefreshImageList();
     }
 
+    public void SetImageAdapter(ImageAdapter imageAdapter) {
+        _imageAdapter = imageAdapter;
+    }
+
     public void AddImage(String imageUrl) {
 
         boolean isFounded = false;
@@ -37,8 +43,9 @@ public class LocalImageManager {
             }
         }
 
-        if (isFounded == false)
+        if (isFounded == false) {
             _imgList.add(0, new ImageEntity(imageUrl));
+        }
     }
 
     public List<ImageEntity> getImageList() {
@@ -91,5 +98,11 @@ public class LocalImageManager {
                 selectedImageList.add(entity.ImageUrl);
         }
         return selectedImageList;
+    }
+
+    public void RefreshUI()
+    {
+        if (_imageAdapter != null)
+            _imageAdapter.notifyDataSetChanged();
     }
 }

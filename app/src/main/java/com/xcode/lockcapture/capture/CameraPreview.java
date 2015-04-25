@@ -14,11 +14,6 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private Camera _camera;
     private SurfaceHolder _holder;
-    private Surface _surface;
-
-    public Surface getSurface() {
-        return _surface;
-    }
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
@@ -30,7 +25,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         initCameraPreview();
-        _surface = holder.getSurface();
     }
 
     void initCameraPreview() {

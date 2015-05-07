@@ -62,7 +62,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         super.onCreate(savedInstanceState);
         mMainActivity = (MainActivity) getActivity();
         _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
-        _colorAnimation = Utils.GenerateColorAnimator(mMainActivity, R.animator.status_color_change, _statusContainer);
         GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
         initCamera();
     }
@@ -200,6 +199,8 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
                 readyToGo();
             }
         });
+
+        _colorAnimation = Utils.GenerateColorAnimator(mMainActivity, R.animator.status_color_change, _statusContainer);
     }
 
     @Override

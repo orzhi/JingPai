@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/about_ll_suggest"
         android:layout_centerInParent="true"
-        android:text="程序版本：1.5 (2015-05-07)"
+        android:text="程序版本：1.6 (2015-05-07)"
         android:textColor="@color/gray"
         android:textSize="16sp" />
 </RelativeLayout>

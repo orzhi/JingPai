@@ -58,23 +58,28 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     };
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMainActivity = (MainActivity) getActivity();
+        _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
+        _colorAnimation = Utils.GenerateColorAnimator(mMainActivity, R.animator.status_color_change, _statusContainer);
+        GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
+        initCamera();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mMainActivity = (MainActivity) getActivity();
         View view = inflater.inflate(R.layout.fragment_capture_status, container, false);
-        _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
         initControl(view);
-
-        _colorAnimation = Utils.GenerateColorAnimator(getActivity(), R.animator.status_color_change, _statusContainer);
-        initCamera();
-        GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
+        readyToGo();
         return view;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        readyToGo();
+    public void onDestroyView() {
+        super.onDestroyView();
+        relax();
     }
 
     public void GoWithAnimate() {
@@ -144,16 +149,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         _isReadToGo = false;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        relax();
-    }
 
     @Override
     public Context GetContext() {

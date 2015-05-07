@@ -50,10 +50,12 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     Switch _shUseFrontCamera;
     FrameLayout _statusContainer;
     VolumeChangedObserver _volumeChanged;
-
-    public CaptureStatus() {
-        // Required empty public constructor
-    }
+    Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            new SavePictureTask().execute(data);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,10 +68,14 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         _colorAnimation = Utils.GenerateColorAnimator(getActivity(), R.animator.status_color_change, _statusContainer);
         initCamera();
         GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
-        readyToGo();
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        readyToGo();
+    }
 
     public void GoWithAnimate() {
         _tvStatus.setText(R.string.capture_status_on);
@@ -88,7 +94,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     }
 
     private void readyToGo() {
-
         if (_isReadToGo)
             return;
 
@@ -140,9 +145,14 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         relax();
-        super.onDestroy();
     }
 
     @Override
@@ -155,14 +165,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         if (_isReadToGo)
             _camera.takePicture(null, null, pictureCallback);
     }
-
-    Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            new SavePictureTask().execute(data);
-        }
-    };
-
 
     void initCamera() {
         int cameraCount = Camera.getNumberOfCameras();

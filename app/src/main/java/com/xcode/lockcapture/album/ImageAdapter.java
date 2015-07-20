@@ -66,7 +66,6 @@ public class ImageAdapter extends ArrayAdapter<ImageEntity> {
             viewHolder.imageIndicator = (ImageView) view.findViewById(R.id.imageList_indicator);
             view.setTag(viewHolder);
             view.setLayoutParams(_itemLayoutParams);
-
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();

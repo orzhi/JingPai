@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,7 +43,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     int _front_camera_index = -1;
     int _back_camera_index = -1;
     int _currentCameraIndex = -1;
-    int _cameraPictureRotation;
     ObjectAnimator _colorAnimation;
 
     TextView _tvStatus;
@@ -62,7 +62,8 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         super.onCreate(savedInstanceState);
         mMainActivity = (MainActivity) getActivity();
         _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
-        GlobalConfig.RawImageStoreUrl = mMainActivity.getExternalFilesDir(null).getAbsolutePath() + "/imgs/";
+        String storeUrl = Environment.isExternalStorageEmulated() ? mMainActivity.getExternalFilesDir(null).getAbsolutePath() : mMainActivity.getFilesDir().getAbsolutePath();
+        GlobalConfig.RawImageStoreUrl = storeUrl + "/imgs/";
         initCamera();
     }
 
@@ -112,16 +113,18 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         }
 
         Camera.Parameters parameters = _camera.getParameters();
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+
+        int cameraPictureRotation;
 
         if (_currentCameraIndex == _back_camera_index) {
-            _cameraPictureRotation = 90;
+            cameraPictureRotation = 90;
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             //set preview to right orientation
             // _camera.setDisplayOrientation(90);
         } else {
-            _cameraPictureRotation = 270;
+            cameraPictureRotation = 270;
         }
-        parameters.setRotation(_cameraPictureRotation);
+        parameters.setRotation(cameraPictureRotation);
         _camera.setParameters(parameters);
         _cameraPreview = new CameraPreview(getActivity(), _camera);
         _previewContainer.addView(_cameraPreview);

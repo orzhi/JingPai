@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -62,8 +61,7 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         super.onCreate(savedInstanceState);
         mMainActivity = (MainActivity) getActivity();
         _volumeChanged = new VolumeChangedObserver(new Handler(), CaptureStatus.this);
-        String storeUrl = Environment.isExternalStorageEmulated() ? mMainActivity.getExternalFilesDir(null).getAbsolutePath() : mMainActivity.getFilesDir().getAbsolutePath();
-        GlobalConfig.RawImageStoreUrl = storeUrl + "/imgs/";
+        GlobalConfig.RawImageStoreUrl = Utils.getWritePath(getActivity()) + "/imgs/";
         initCamera();
     }
 

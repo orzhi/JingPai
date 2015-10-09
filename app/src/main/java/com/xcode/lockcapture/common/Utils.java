@@ -4,6 +4,9 @@ import android.animation.AnimatorInflater;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,6 +79,36 @@ public class Utils {
             if (destination != null) {
                 destination.close();
             }
+        }
+    }
+
+    public static String getWritePath(Context context) {
+
+        //外部有挂载
+        if (Environment.isExternalStorageEmulated()) {
+            File file = context.getExternalFilesDir(null);
+
+            if (file != null)
+                return file.getAbsolutePath();
+        }
+
+        return context.getFilesDir().getAbsolutePath();
+    }
+
+    /**
+     * 获取程序版本，参考build.gradle里面的versionName
+     *
+     * @param context
+     * @return
+     */
+    public static String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+
+        try {
+            PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
         }
     }
 }

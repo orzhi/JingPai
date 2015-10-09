@@ -28,6 +28,8 @@ import com.xcode.lockcapture.common.Utils;
 import com.xcode.lockcapture.media.BGMusicService;
 import com.xcode.lockcapture.observer.VolumeChangedObserver;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,13 +112,33 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
             }
         }
 
+        setCameraParams();
+        _cameraPreview = new CameraPreview(getActivity(), _camera);
+        _previewContainer.addView(_cameraPreview);
+        mMainActivity.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, _volumeChanged);
+        mMainActivity.startService(new Intent(getActivity(), BGMusicService.class));
+
+        _isReadToGo = true;
+    }
+
+    private void setCameraParams() {
         Camera.Parameters parameters = _camera.getParameters();
 
         int cameraPictureRotation;
 
         if (_currentCameraIndex == _back_camera_index) {
             cameraPictureRotation = 90;
-            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            List<String> focusModesList = parameters.getSupportedFocusModes();
+
+            //增加对聚焦模式的判断
+            if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+            } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            }
+
             //set preview to right orientation
             // _camera.setDisplayOrientation(90);
         } else {
@@ -124,12 +146,6 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
         }
         parameters.setRotation(cameraPictureRotation);
         _camera.setParameters(parameters);
-        _cameraPreview = new CameraPreview(getActivity(), _camera);
-        _previewContainer.addView(_cameraPreview);
-        mMainActivity.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, _volumeChanged);
-        mMainActivity.startService(new Intent(getActivity(), BGMusicService.class));
-
-        _isReadToGo = true;
     }
 
     private void relax() {

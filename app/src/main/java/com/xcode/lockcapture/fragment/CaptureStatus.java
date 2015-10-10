@@ -128,22 +128,24 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
 
         if (_currentCameraIndex == _back_camera_index) {
             cameraPictureRotation = 90;
-            List<String> focusModesList = parameters.getSupportedFocusModes();
-
-            //增加对聚焦模式的判断
-            if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-            } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
-                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-            } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-            }
 
             //set preview to right orientation
             // _camera.setDisplayOrientation(90);
         } else {
             cameraPictureRotation = 270;
         }
+
+        List<String> focusModesList = parameters.getSupportedFocusModes();
+
+        //增加对聚焦模式的判断
+        if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+        } else if (focusModesList.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        }
+
         parameters.setRotation(cameraPictureRotation);
         _camera.setParameters(parameters);
     }

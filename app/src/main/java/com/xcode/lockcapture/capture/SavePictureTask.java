@@ -15,6 +15,11 @@ import java.util.Date;
  * Created by Administrator on 2015/4/8.
  */
 public class SavePictureTask extends AsyncTask<byte[], String, String> {
+    SavePicListener listener;
+
+    public SavePictureTask(SavePicListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     protected String doInBackground(byte[]... data) {
@@ -48,6 +53,7 @@ public class SavePictureTask extends AsyncTask<byte[], String, String> {
     @Override
     protected void onPostExecute(String s) {
         LocalImageManager.GetInstance().RefreshUI();
+        listener.saveFinish();
         super.onPostExecute(s);
     }
 
@@ -55,5 +61,10 @@ public class SavePictureTask extends AsyncTask<byte[], String, String> {
         File file = new File(GlobalConfig.RawImageStoreUrl);
         if (!file.exists())
             file.mkdirs();
+    }
+
+    //监听器
+    public interface SavePicListener {
+        void saveFinish();
     }
 }

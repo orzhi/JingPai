@@ -54,7 +54,15 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            new SavePictureTask().execute(data);
+            new SavePictureTask(new SavePictureTask.SavePicListener() {
+
+                @Override
+                public void saveFinish() {
+                    //这句是最重要的,必须执行startPreview后,才能再次拍照
+                    _camera.startPreview();
+                    _isReadToGo = true;
+                }
+            }).execute(data);
         }
     };
 
@@ -177,6 +185,8 @@ public class CaptureStatus extends Fragment implements ICaptureTakenEvent, IFrag
     public void TakenPicture() {
         if (_isReadToGo)
             _camera.takePicture(null, null, pictureCallback);
+
+        _isReadToGo = false;
     }
 
     void initCamera() {

@@ -44,7 +44,7 @@ public class Utils {
     }
 
     public static String wrapUrlWithPicassoPrefix(String url) {
-        return "file://" + GlobalConfig.RawImageStoreUrl + url;
+        return GlobalConfig.RawImageStoreUrl + url;
     }
 
     public static void CopyFile(String sourceUrl, String destUrl) throws IOException {

@@ -1,25 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.xcode.lockcapture.fragment.CaptureStatus"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.xcode.lockcapture.fragment.CaptureStatus">
 
     <FrameLayout
         android:id="@+id/status_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:background="@color/green">
+        android:background="@color/blue">
 
         <TextView
             android:id="@+id/status_capture_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="40sp"
+            android:text="@string/capture_status_on"
             android:textColor="@color/white"
-            android:text="@string/capture_status_on" />
+            android:textSize="40sp"/>
 
 
     </FrameLayout>
@@ -34,43 +34,43 @@
         <TableRow>
 
             <TextView
+                style="@style/setting_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                style="@style/setting_font"
-                android:text="切换服务状态" />
+                android:text="切换服务状态"/>
 
             <Switch
                 android:id="@+id/status_change_state"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:checked="true" />
+                android:checked="true"/>
         </TableRow>
 
         <View
             android:layout_height="1dip"
-            android:background="#B7B7B7" />
+            android:background="#B7B7B7"/>
 
         <TableRow>
 
             <TextView
+                style="@style/setting_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="使用前置摄像头"
-                style="@style/setting_font" />
+                android:text="使用前置摄像头"/>
 
             <Switch
                 android:id="@+id/status_change_camera"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right" />
+                android:layout_gravity="right"/>
         </TableRow>
 
         <View
             android:layout_height="1dip"
-            android:background="#B7B7B7" />
+            android:background="#B7B7B7"/>
     </TableLayout>
 
     <FrameLayout

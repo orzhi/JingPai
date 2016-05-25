@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/blue"
-        android:src="@drawable/company_logo" />
+        android:src="@mipmap/company_logo"/>
 
     <TextView
         android:id="@+id/about_my_word"

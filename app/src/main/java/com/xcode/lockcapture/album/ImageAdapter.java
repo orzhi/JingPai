@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.xcode.lockcapture.R;
 import com.xcode.lockcapture.common.GlobalConfig;
 import com.xcode.lockcapture.common.Utils;
@@ -25,8 +25,8 @@ public class ImageAdapter extends ArrayAdapter<ImageEntity> {
     private int _resourceID;
     private int _itemSize;
     private GridView.LayoutParams _itemLayoutParams;
-    private int INDICATOR_SELECTED = R.drawable.indicator_selected;
-    private int INDICATOR_NOT_SELECTED = R.drawable.indicator_unselected;
+    private int INDICATOR_SELECTED = R.mipmap.indicator_selected;
+    private int INDICATOR_NOT_SELECTED = R.mipmap.indicator_unselected;
 
     public ImageAdapter(Context context, int resource, List<ImageEntity> objects) {
         super(context, resource, objects);
@@ -80,9 +80,9 @@ public class ImageAdapter extends ArrayAdapter<ImageEntity> {
         public ImageView imageIndicator;
 
         public void InitView(ImageEntity entity) {
-            Picasso.with(_context).load(Utils.wrapUrlWithPicassoPrefix(entity.ImageUrl))
-                    .placeholder(R.drawable.image_place_holder)
-                    .resize(_itemSize, _itemSize).centerCrop()
+            Glide.with(_context).load(Utils.wrapUrlWithPicassoPrefix(entity.ImageUrl))
+                    .placeholder(R.mipmap.image_place_holder)
+                    .override(_itemSize, _itemSize).centerCrop()
                     .into(imageView);
 
             if (GlobalConfig.IsImageEditMode == false) {
@@ -92,7 +92,7 @@ public class ImageAdapter extends ArrayAdapter<ImageEntity> {
 
             imageIndicator.setVisibility(View.VISIBLE);
             int indicatorSource = entity.IsSelected ? INDICATOR_SELECTED : INDICATOR_NOT_SELECTED;
-            Picasso.with(_context).load(indicatorSource).into(imageIndicator);
+            Glide.with(_context).load(indicatorSource).into(imageIndicator);
         }
     }
 }

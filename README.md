@@ -1,4 +1,4 @@
-基于android studio开发，已上架豌豆荚、Flyme商店、360商店（搜索静拍即可）
+基于android studio开发，已上架豌豆荚、Flyme商店、360商店（搜索静拍即可）  
 [体验地址](http://git.oschina.net/yso/JingPai/releases)  
 特性如下：
 #静：
